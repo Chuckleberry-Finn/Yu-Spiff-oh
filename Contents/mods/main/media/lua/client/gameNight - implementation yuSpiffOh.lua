@@ -49,11 +49,11 @@ function applyItemDetails.yuSpiffOh.spawnRandomCard(zombie)
 end
 
 
-function applyItemDetails.applyBoostersToYuSpiffOhCards(item)
+function applyItemDetails.applyBoostersToYuSpiffOhCards(item, zombie)
     local cards = {}
 
     for i=0, 9 do
-        local card = applyItemDetails.yuSpiffOh.rollCard()
+        local card = applyItemDetails.yuSpiffOh.spawnRandomCard(zombie)
         table.insert(cards, card)
     end
 
@@ -66,22 +66,20 @@ end
 function applyItemDetails.applyCardForYuSpiffOh(item)
     if not item:getModData()["gameNight_cardDeck"] then
 
-        print("yugi")
+        local itemCont = item:getContainer()
+        local zombie = itemCont and (itemCont:getType() == "inventorymale" or itemCont:getType() == "inventoryfemale")
 
         local applyBoosters = item:getModData()["gameNight_specialOnCardApplyBooster"]
         if applyBoosters then
-            print(" - booster")
-            applyItemDetails.applyBoostersToYuSpiffOhCards(item)
+            applyItemDetails.applyBoostersToYuSpiffOhCards(item, zombie)
             item:getModData()["gameNight_specialOnCardApplyBooster"] = nil
             item:getModData()["gameNight_specialOnCardApplyDeck"] = nil
+            gamePieceAndBoardHandler.refreshInventory(getPlayer())
             return
         end
 
         local applyDeck = item:getModData()["gameNight_specialOnCardApplyDeck"]
         if not applyDeck then
-            print(" - not deck")
-            local itemCont = item:getContainer()
-            local zombie = itemCont and (itemCont:getType() == "inventorymale" or itemCont:getType() == "inventoryfemale")
             if (ZombRand(10) < 1) or zombie then
                 local card = applyItemDetails.yuSpiffOh.spawnRandomCard(true)
                 item:getModData()["gameNight_cardDeck"] = { card }
@@ -93,12 +91,9 @@ function applyItemDetails.applyCardForYuSpiffOh(item)
         end
 
         if applyDeck then
-            print(" - deck")
             local deckID = YuSpiffOh.deckIDs[ZombRand(#YuSpiffOh.deckIDs)+1]
             local cards = YuSpiffOh.buildDeck(deckID)
-            print(" -- deckID: ", deckID)
             if cards then
-                print(" --- cards?")
                 item:getModData()["gameNight_cardDeck"] = cards
                 item:getModData()["gameNight_cardFlipped"] = {}
                 for i=1, #cards do item:getModData()["gameNight_cardFlipped"][i] = true end
