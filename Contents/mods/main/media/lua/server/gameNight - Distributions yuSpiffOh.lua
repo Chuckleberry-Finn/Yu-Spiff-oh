@@ -2,19 +2,34 @@ require "Items/SuburbsDistributions"
 
 local gameNightDistro = require "gameNight - Distributions"
 
-gameNightDistro.proceduralDistGameNight.itemsToAdd["ADDON_NAME_Box"] = {}
+--yuSpiffOhBoosterPack yuSpiffOhCards
 
---- This generates the contents of the boxes, sealed or otherwise.
---- Set pieces to 9999 chance, this doesn't matter for sealed boxes
---- but it does impact opened boxes found in the world. If you'd like to make some pieces missing/incomplete sets change the 9999
+gameNightDistro.proceduralDistGameNight.itemsToAdd["yuSpiffOhBoosterPack"] = {
+    rolls = 12,
+    perDistFactor = {
+        ["Gifts"] = 1.5,
+        ["GigamartToys"] = 1.5,
+        ["HolidayStuff"] = 1.5,
 
-gameNightDistro.gameNightBoxes["ADDON_NAME_Box"] = {
-    rolls = 1,
-    items = {
-        "CARD_ITEM_TYPE", 9999,
-        "CARD_ITEM_TYPE", 9999,
-    },
-    junk = { rolls = 1, items = {} }, fillRand = 0,
+        ["ClassroomDesk"] = 0.015,
+        ["BedroomDresser"] = 0.01,
+        ["ClassroomMisc"] = 0.01,
+        ["SchoolLockers"] = 0.015,
+        ["OfficeDeskHome"] = 0,
+        ["BarCounterMisc"] = 0,
+        ["Hobbies"] = 0.01,
+        ["WardrobeChild"] = 0.01,
+        ["CrateRandomJunk"] = 0.01,
+    }
 }
 
---- This would spawn two sets of cards in the box
+gameNightDistro.proceduralDistGameNight.itemsToAdd["yuSpiffOhCards"] = {
+    rolls = 2,
+    perDistFactor = {
+        ["Gifts"] = 0,
+        ["GigamartToys"] = 0,
+        ["HolidayStuff"] = 0,
+        ["SchoolLockers"] = 1.75,
+        ["ClassroomDesk"] = 1.75,
+    }
+}

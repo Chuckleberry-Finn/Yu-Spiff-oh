@@ -1,6 +1,10 @@
 module Base
 {
-
-    recipe Unseal Box { ADDNAME_Box_sealed, Result:ADDNAME_Box, CanBeDoneFromFloor:true, OnCreate:Recipe.GameNight.Unbox, Time:50.0, }
-
+    recipe Unseal Booster {
+        yuSpiffOhBoosterPack,
+        Result:yuSpiffOhCards,
+        CanBeDoneFromFloor:true,
+        OnCreate:Recipe.GameNight.OpenBoosterYuSpiffOh,
+        Time:50.0,
+    }
 }

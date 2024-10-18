@@ -1,5 +1,5 @@
-name=Game Night - ADDON_NAME
-id=gamenight_ADDON_NAME
-description=
+name=Game Night - Yu-Spiff-Oh
+id=gamenight_YuSpiffOh
+description=Unofficial Fan Content
 poster=poster.png
 require=gamenight

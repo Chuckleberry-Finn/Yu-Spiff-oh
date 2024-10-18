@@ -7,13 +7,283 @@ local gamePieceAndBoardHandler = applyItemDetails.gamePieceAndBoardHandler
 
 local YuSpiffOh = {}
 
-YuSpiffOh.rarityScale = {
-    common = 16,
-    uncommon = 10,
-    rare = 4,
-    super_rare = 2,
-    ultra_rare = 1,
+applyItemDetails.yuSpiffOh = {}
+
+function applyItemDetails.yuSpiffOh.rollCard(rarity)
+
+    local cards = YuSpiffOh.cardsByRarity[rarity]
+    if not cards then return end
+
+    local card = cards[ZombRand(#cards)+1]
+    if not card then return end
+
+    return card
+end
+
+
+
+function applyItemDetails.yuSpiffOh.weighedProbability(outcomesAndWeights)
+    local totalWeight = 0
+    for outcome, weight in pairs(outcomesAndWeights) do totalWeight = totalWeight + weight end
+    local randomNumber = ZombRand(totalWeight)+1
+    local cumulativeWeight = 0
+    for outcome, weight in pairs(outcomesAndWeights) do
+        cumulativeWeight = cumulativeWeight + weight
+        if randomNumber <= cumulativeWeight then
+            return outcome
+        end
+    end
+end
+
+
+function applyItemDetails.yuSpiffOh.spawnRandomCard(zombie)
+    local common = 16
+    local uncommon = 10
+    local rare = zombie and 5 or 4
+    local super_rare = zombie and 3 or 2
+    local ultra_rare = zombie and 2 or 1
+
+    local rarity = applyItemDetails.yuSpiffOh.weighedProbability({ common=common, uncommon=uncommon, rare=rare, super_rare=super_rare, ultra_rare=ultra_rare})
+    local card = applyItemDetails.yuSpiffOh.rollCard(rarity)
+    return card
+end
+
+
+function applyItemDetails.applyBoostersToYuSpiffOhCards(item)
+    local cards = {}
+
+    for i=0, 9 do
+        local card = applyItemDetails.yuSpiffOh.rollCard()
+        table.insert(cards, card)
+    end
+
+    item:getModData()["gameNight_cardDeck"] = cards
+    item:getModData()["gameNight_cardFlipped"] = {}
+    for i=1, #cards do item:getModData()["gameNight_cardFlipped"][i] = true end
+end
+
+
+function applyItemDetails.applyCardForYuSpiffOh(item)
+    if not item:getModData()["gameNight_cardDeck"] then
+
+        local applyBoosters = item:getModData()["gameNight_specialOnCardApplyBooster"]
+        if applyBoosters then
+            applyItemDetails.applyBoostersToYuSpiffOhCards(item)
+            item:getModData()["gameNight_specialOnCardApplyBooster"] = nil
+            return
+        end
+
+        local applyDeck = item:getModData()["gameNight_specialOnCardApplyDeck"]
+        if not applyDeck then
+            local itemCont = item:getContainer()
+            local zombie = itemCont and (itemCont:getType() == "inventorymale" or itemCont:getType() == "inventoryfemale")
+            if (ZombRand(10) < 1) or zombie then
+                local card = applyItemDetails.yuSpiffOh.spawnRandomCard(true)
+                item:getModData()["gameNight_cardDeck"] = { card }
+                item:getModData()["gameNight_cardFlipped"] = { true }
+                item:getModData()["gameNight_specialOnCardApplyDeck"] = nil
+            else
+                applyDeck = YuSpiffOh.Decks[ZombRand(#YuSpiffOh.Decks)+1]
+            end
+        end
+
+        if applyDeck then
+            local cards = YuSpiffOh.buildDeck(applyDeck)
+            if cards then
+                item:getModData()["gameNight_cardDeck"] = cards
+                item:getModData()["gameNight_cardFlipped"] = {}
+                for i=1, #cards do item:getModData()["gameNight_cardFlipped"][i] = true end
+            end
+            item:getModData()["gameNight_specialOnCardApplyDeck"] = nil
+        end
+
+        gamePieceAndBoardHandler.refreshInventory(getPlayer())
+    end
+end
+
+
+function YuSpiffOh.buildDeck(deckID)
+    local cards = {}
+    local deckData = YuSpiffOh.Decks[deckID]
+    if not deckData then return end
+
+    for card,numberOf in pairs(deckData) do
+        local cardID = card
+        for n=1, numberOf do
+            table.insert(cards, cardID)
+        end
+    end
+
+    return cards
+end
+
+
+YuSpiffOh.Decks = {
+    ["Goat Control"] = {
+        ["Jinzo"] = 1, ["Airknight Parshath"] = 1, ["Tsukuyomi"] = 1,
+        ["Black Luster Soldier - Envoy of the Beginning"] = 1, ["Sinister Serpent"] = 1, ["Sangan"] = 1,
+        ["Magician of Faith"] = 2, ["Dekoichi the Battlechanted Locomotive"] = 2, ["Tribe-Infecting Virus"] = 1,
+        ["Mystic Tomato"] = 2, ["Breaker the Magical Warrior"] = 1, ["Spirit Reaper"] = 1,
+        ["Scapegoat"] = 3, ["Metamorphosis"] = 2, ["Snatch Steal"] = 1,
+        ["Nobleman of Crossout"] = 2, ["Heavy Storm"] = 1, ["Mystical Space Typhoon"] = 1,
+        ["Pot of Greed"] = 1, ["Graceful Charity"] = 1, ["Delinquent Duo"] = 1,
+        ["Premature Burial"] = 1, ["Call of the Haunted"] = 1, ["Mirror Force"] = 1,
+        ["Torrential Tribute"] = 1, ["Sakuretsu Armor"] = 2, ["Ring of Destruction"] = 1,
+        ["Scapegoat"] = 1,
+    },
+
+    ["Chaos Control"] = {
+        ["Black Luster Soldier - Envoy of the Beginning"] = 1, ["Chaos Sorcerer"] = 2, ["Jinzo"] = 1,
+        ["Airknight Parshath"] = 1, ["Tsukuyomi"] = 1, ["Tribe-Infecting Virus"] = 1,
+        ["Magician of Faith"] = 2, ["Dekoichi the Battlechanted Locomotive"] = 2, ["Sangan"] = 1,
+        ["Breaker the Magical Warrior"] = 1, ["Spirit Reaper"] = 1, ["Sinister Serpent"] = 1,
+        ["Scapegoat"] = 3, ["Metamorphosis"] = 2, ["Graceful Charity"] = 1,
+        ["Pot of Greed"] = 1, ["Delinquent Duo"] = 1, ["Snatch Steal"] = 1,
+        ["Heavy Storm"] = 1, ["Mystical Space Typhoon"] = 1, ["Nobleman of Crossout"] = 2,
+        ["Premature Burial"] = 1, ["Call of the Haunted"] = 1, ["Mirror Force"] = 1,
+        ["Torrential Tribute"] = 1, ["Ring of Destruction"] = 1, ["Sakuretsu Armor"] = 2,
+        ["Book of Moon"] = 1,
+    },
+
+    ["Warrior Beatdown"] = {
+        ["Exiled Force"] = 1, ["D․D․ Warrior Lady"] = 2, ["Blade Knight"] = 2,
+        ["Mystic Swordsman LV2"] = 1, ["Goblin Attack Force"] = 2, ["Breaker the Magical Warrior"] = 1,
+        ["Don Zaloog"] = 1, ["King Tiger Wanghu"] = 2, ["Marauding Captain"] = 2,
+        ["Jinzo"] = 1, ["Mystical Space Typhoon"] = 1, ["Reinforcement of the Army"] = 2,
+        ["Heavy Storm"] = 1, ["Snatch Steal"] = 1, ["Nobleman of Crossout"] = 2,
+        ["Pot of Greed"] = 1, ["Graceful Charity"] = 1, ["The Warrior Returning Alive"] = 1,
+        ["Premature Burial"] = 1, ["Mirror Force"] = 1, ["Torrential Tribute"] = 1,
+        ["Sakuretsu Armor"] = 2, ["Call of the Haunted"] = 1, ["Ring of Destruction"] = 1,
+        ["Smashing Ground"] = 2,
+    },
+
+    ["Burn Deck"] = {
+        ["Des Koala"] = 2, ["Stealth Bird"] = 2, ["Lava Golem"] = 1,
+        ["Spirit Reaper"] = 1, ["Sangan"] = 1, ["Morphing Jar"] = 1,
+        ["Cyber Jar"] = 1, ["Magician of Faith"] = 2, ["D․D․ Warrior Lady"] = 1,
+        ["Wave-Motion Cannon"] = 3, ["Gravity Bind"] = 2, ["Level Limit - Area B"] = 2,
+        ["Messenger of Peace"] = 2, ["Swords of Revealing Light"] = 1, ["Secret Barrel"] = 2,
+        ["Ceasefire"] = 1, ["Magic Cylinder"] = 1, ["Ring of Destruction"] = 1,
+        ["Torrential Tribute"] = 1, ["Ojama Trio"] = 1, ["Dark Room of Nightmare"] = 1,
+        ["Pot of Greed"] = 1, ["Graceful Charity"] = 1, ["Mystical Space Typhoon"] = 1,
+        ["Heavy Storm"] = 1, ["Snatch Steal"] = 1, ["Secret Barrel"] = 1,
+    },
+
+    ["Machine Aggro"] = {
+        ["Jinzo"] = 1, ["Reflect Bounder"] = 2, ["X․Head Cannon"] = 2,
+        ["Y․Dragon Head"] = 2, ["Z․Metal Tank"] = 2, ["Cyber Dragon"] = 2,
+        ["Drillroid"] = 2, ["Mystical Space Typhoon"] = 1, ["Limiter Removal"] = 1,
+        ["Heavy Storm"] = 1, ["Pot of Greed"] = 1, ["Graceful Charity"] = 1,
+        ["Snatch Steal"] = 1, ["Premature Burial"] = 1, ["Call of the Haunted"] = 1,
+        ["Mirror Force"] = 1, ["Torrential Tribute"] = 1, ["Sakuretsu Armor"] = 2,
+        ["Ring of Destruction"] = 1, ["United We Stand"] = 1, ["Megamorph"] = 1,
+        ["Nobleman of Crossout"] = 2, ["Smashing Ground"] = 2,
+    },
+
+    ["Zombie Deck"] = {
+        ["Pyramid Turtle"] = 3, ["Spirit Reaper"] = 2, ["Vampire Lord"] = 2,
+        ["Ryu Kokki"] = 2, ["Book of Life"] = 3, ["Call of the Mummy"] = 2,
+        ["Torrential Tribute"] = 1, ["Mirror Force"] = 1, ["Sakuretsu Armor"] = 2,
+        ["Ring of Destruction"] = 1, ["Mystical Space Typhoon"] = 1, ["Heavy Storm"] = 1,
+        ["Pot of Greed"] = 1, ["Graceful Charity"] = 1, ["Snatch Steal"] = 1,
+        ["Premature Burial"] = 1, ["Nobleman of Crossout"] = 2, ["Creature Swap"] = 2,
+        ["Book of Moon"] = 2, ["Call of the Haunted"] = 1, ["Smashing Ground"] = 1,
+    },
+
+    ["Control Warrior"] = {
+        ["D․D․ Assailant"] = 2, ["D․D․ Warrior Lady"] = 1, ["Exiled Force"] = 1,
+        ["Blade Knight"] = 2, ["Don Zaloog"] = 1, ["Mystic Swordsman LV2"] = 1,
+        ["Jinzo"] = 1, ["Breaker the Magical Warrior"] = 1, ["Spirit Reaper"] = 1,
+        ["Mystical Space Typhoon"] = 1, ["Heavy Storm"] = 1, ["Reinforcement of the Army"] = 2,
+        ["Nobleman of Crossout"] = 2, ["Snatch Steal"] = 1, ["Premature Burial"] = 1,
+        ["Pot of Greed"] = 1, ["Graceful Charity"] = 1, ["The Warrior Returning Alive"] = 1,
+        ["Swords of Revealing Light"] = 1, ["Sakuretsu Armor"] = 2, ["Mirror Force"] = 1,
+        ["Torrential Tribute"] = 1, ["Ring of Destruction"] = 1, ["Call of the Haunted"] = 1,
+        ["Smashing Ground"] = 2,
+    },
+
+    ["Monarch Control"] = {
+        ["Mobius the Frost Monarch"] = 2, ["Zaborg the Thunder Monarch"] = 2, ["Granmarg the Rock Monarch"] = 1,
+        ["Treeborn Frog"] = 1, ["Spirit Reaper"] = 1, ["Breaker the Magical Warrior"] = 1,
+        ["Magician of Faith"] = 2, ["D․D․ Warrior Lady"] = 1, ["Sangan"] = 1,
+        ["Mystical Space Typhoon"] = 1, ["Heavy Storm"] = 1, ["Snatch Steal"] = 1,
+        ["Premature Burial"] = 1, ["Pot of Greed"] = 1, ["Graceful Charity"] = 1,
+        ["Nobleman of Crossout"] = 2, ["Soul Exchange"] = 2, ["Brain Control"] = 1,
+        ["Mirror Force"] = 1, ["Torrential Tribute"] = 1, ["Sakuretsu Armor"] = 2,
+        ["Call of the Haunted"] = 1, ["Ring of Destruction"] = 1, ["Smashing Ground"] = 1,
+    },
+
+    ["Reasoning Gate OTK"] = {
+        ["Jinzo"] = 1, ["Sacred Crane"] = 2, ["Airknight Parshath"] = 1,
+        ["Dimension Fusion"] = 2, ["Chaos Sorcerer"] = 1, ["Black Luster Soldier - Envoy of the Beginning"] = 1,
+        ["D․D․ Warrior Lady"] = 1, ["Mystic Tomato"] = 2, ["Breaker the Magical Warrior"] = 1,
+        ["Magician of Faith"] = 1, ["Sinister Serpent"] = 1, ["Reasoning"] = 3,
+        ["Monster Gate"] = 2, ["Metamorphosis"] = 2, ["Scapegoat"] = 2,
+        ["Nobleman of Crossout"] = 2, ["Pot of Greed"] = 1, ["Graceful Charity"] = 1,
+        ["Premature Burial"] = 1, ["Snatch Steal"] = 1, ["Heavy Storm"] = 1,
+        ["Mystical Space Typhoon"] = 1, ["Torrential Tribute"] = 1, ["Ring of Destruction"] = 1,
+        ["Call of the Haunted"] = 1, ["Mirror Force"] = 1, ["Scapegoat"] = 1,
+    },
+
+    ["Anti-Meta Beatdown"] = {
+        ["Banisher of the Radiance"] = 2, ["D․D․ Warrior Lady"] = 2, ["Exiled Force"] = 1,
+        ["Blade Knight"] = 2, ["Kycoo the Ghost Destroyer"] = 2, ["Breaker the Magical Warrior"] = 1,
+        ["Jinzo"] = 1, ["Zombyra the Dark"] = 2, ["Mystic Tomato"] = 2,
+        ["Mystical Space Typhoon"] = 1, ["Heavy Storm"] = 1, ["Nobleman of Crossout"] = 2,
+        ["Snatch Steal"] = 1, ["Premature Burial"] = 1, ["Pot of Greed"] = 1,
+        ["Graceful Charity"] = 1, ["Smashing Ground"] = 2, ["Reinforcement of the Army"] = 2,
+        ["Mirror Force"] = 1, ["Torrential Tribute"] = 1, ["Ring of Destruction"] = 1,
+        ["Sakuretsu Armor"] = 2, ["Call of the Haunted"] = 1, ["Swords of Revealing Light"] = 1,
+    },
+
+    ["Warrior Toolbox"] = {
+        ["Exiled Force"] = 1, ["D․D․ Warrior Lady"] = 2, ["Blade Knight"] = 2,
+        ["Mystic Swordsman LV2"] = 1, ["Mystic Swordsman LV4"] = 1, ["Don Zaloog"] = 2,
+        ["Jinzo"] = 1, ["Breaker the Magical Warrior"] = 1, ["Spirit Reaper"] = 1,
+        ["Mystic Tomato"] = 2, ["Reinforcement of the Army"] = 2, ["Mystical Space Typhoon"] = 1,
+        ["Heavy Storm"] = 1, ["Nobleman of Crossout"] = 2, ["Snatch Steal"] = 1,
+        ["Premature Burial"] = 1, ["Pot of Greed"] = 1, ["Graceful Charity"] = 1,
+        ["The Warrior Returning Alive"] = 1, ["Swords of Revealing Light"] = 1,
+        ["Sakuretsu Armor"] = 2, ["Mirror Force"] = 1, ["Torrential Tribute"] = 1,
+        ["Ring of Destruction"] = 1, ["Call of the Haunted"] = 1, ["Smashing Ground"] = 1,
+    },
+
+    ["Spellcaster Control"] = {
+        ["Magician of Faith"] = 2, ["Breaker the Magical Warrior"] = 1, ["Old Vindictive Magician"] = 1,
+        ["Chaos Sorcerer"] = 2, ["Black Luster Soldier - Envoy of the Beginning"] = 1, ["Skilled Dark Magician"] = 2,
+        ["Apprentice Magician"] = 2, ["Tsukuyomi"] = 1, ["Sangan"] = 1,
+        ["Mystical Space Typhoon"] = 1, ["Heavy Storm"] = 1, ["Pot of Greed"] = 1,
+        ["Graceful Charity"] = 1, ["Nobleman of Crossout"] = 2, ["Snatch Steal"] = 1,
+        ["Premature Burial"] = 1, ["Book of Moon"] = 2, ["Swords of Revealing Light"] = 1,
+        ["Call of the Haunted"] = 1, ["Mirror Force"] = 1, ["Torrential Tribute"] = 1,
+        ["Ring of Destruction"] = 1, ["Sakuretsu Armor"] = 2, ["Smashing Ground"] = 1,
+    },
+
+    ["Chaos Warrior"] = {
+        ["Black Luster Soldier - Envoy of the Beginning"] = 1, ["Chaos Sorcerer"] = 2, ["D․D․ Warrior Lady"] = 1,
+        ["Exiled Force"] = 1, ["Blade Knight"] = 2, ["Mystic Tomato"] = 2,
+        ["Breaker the Magical Warrior"] = 1, ["Jinzo"] = 1, ["Tribe-Infecting Virus"] = 1,
+        ["Magician of Faith"] = 2, ["Sangan"] = 1, ["Mystical Space Typhoon"] = 1,
+        ["Heavy Storm"] = 1, ["Pot of Greed"] = 1, ["Graceful Charity"] = 1,
+        ["Snatch Steal"] = 1, ["Premature Burial"] = 1, ["Nobleman of Crossout"] = 2,
+        ["Reinforcement of the Army"] = 2, ["Sakuretsu Armor"] = 2, ["Torrential Tribute"] = 1,
+        ["Mirror Force"] = 1, ["Ring of Destruction"] = 1, ["Call of the Haunted"] = 1,
+        ["Smashing Ground"] = 1,
+    },
+
+    ["Stall Burn Lock"] = {
+        ["Lava Golem"] = 1, ["Spirit Reaper"] = 2, ["Stealth Bird"] = 2,
+        ["Des Koala"] = 2, ["Morphing Jar"] = 1, ["Cyber Jar"] = 1,
+        ["Sangan"] = 1, ["Magician of Faith"] = 2, ["Marshmallon"] = 1,
+        ["Wave-Motion Cannon"] = 3, ["Messenger of Peace"] = 2, ["Level Limit - Area B"] = 2,
+        ["Gravity Bind"] = 2, ["Swords of Revealing Light"] = 1, ["Ojama Trio"] = 2,
+        ["Ceasefire"] = 1, ["Magic Cylinder"] = 1, ["Secret Barrel"] = 2,
+        ["Torrential Tribute"] = 1, ["Ring of Destruction"] = 1, ["Nightmare Wheel"] = 2,
+        ["Heavy Storm"] = 1, ["Mystical Space Typhoon"] = 1, ["Pot of Greed"] = 1,
+        ["Graceful Charity"] = 1, ["Snatch Steal"] = 1, ["Secret Barrel"] = 1,
+    }
 }
+
 
 YuSpiffOh.cardsByRarity = {}
 
@@ -48,8 +318,8 @@ YuSpiffOh.cardsByRarity.common = {
     "Contract with Exodia","Contract with the Dark Master","Convulsion of Nature","Corroding Shark","Crab Turtle",
     "Crass Clown","Crawling Dragon","Crawling Dragon #2","Creeping Doom Manta","Crimson Ninja","Crimson Sentry",
     "Cure Mermaid","Curse of Aging","Curse of the Masked Beast","Cursed Seal of the Forbidden Spell","Cyber Falcon",
-    "Cyber Raider","Cyber Saurus","Cyber Soldier of Darkworld","Cyclon Laser","D. Human","D. Tribe","D.D. Dynamite",
-    "D.D. Trainer","Dancing Elf","Dancing Fairy","Dark Assailant","Dark Bat","Dark Blade","Dark Cat with White Tail",
+    "Cyber Raider","Cyber Saurus","Cyber Soldier of Darkworld","Cyclon Laser","D․ Human","D․ Tribe","D․D․ Dynamite",
+    "D․D․ Trainer","Dancing Elf","Dancing Fairy","Dark Assailant","Dark Bat","Dark Blade","Dark Cat with White Tail",
     "Dark Coffin","Dark Dust Spirit","Dark Factory of Mass Production","Dark Gray","Dark Magic Attack",
     "Dark Magician Knight","Dark Mimic LV1","Dark Room of Nightmare","Dark Scorpion - Chick the Yellow",
     "Dark Scorpion - Cliff the Trap Remover","Dark Scorpion - Gorg the Strong","Dark Scorpion - Meanae the Thorn",
@@ -80,7 +350,7 @@ YuSpiffOh.cardsByRarity.common = {
     "Gale Lizard","Gamble","Gamma the Magnet Warrior","Garoozis","Garuda the Wind Spirit","Gather Your Mind",
     "Gazelle the King of Mythical Beasts","Germ Infection","Giant Axe Mummy","Giant Flea","Giant Orc",
     "Giant Soldier of Stone","Giant Turtle Who Feeds on Flames","Gift of the Martyr","Giga Gagagigo",
-    "Giga-Tech Wolf","Gigantes","Gigobyte","Giltia the D. Knight","Girochin Kuwagata","Goblin Calligrapher",
+    "Giga-Tech Wolf","Gigantes","Gigobyte","Giltia the D․ Knight","Girochin Kuwagata","Goblin Calligrapher",
     "Goblin Fan","Goblin King","Goblin of Greed","Goblin Thief","Gogiga Gagagigo","Good Goblin Housekeeping",
     "Gora Turtle of Illusion","Gorgon's Eye","Graceful Dice","Gradius","Gradius' Option","Granadora",
     "Grand Tiki Elder","Grave Lure","Grave Protector","Gravekeeper's Cannonholder","Gravekeeper's Curse",
@@ -118,7 +388,7 @@ YuSpiffOh.cardsByRarity.common = {
     "Mind Wipe","Mine Golem","Minefield Eruption","Minor Goblin Official","Miracle Dig","Miracle Restoring",
     "Mirage Dragon","Misairuzame","Mispolymerization","Moai Interceptor Cannons","Mokey Mokey","Mokey Mokey King",
     "Mokey Mokey Smackdown","Molten Behemoth","Molten Destruction","Molten Zombie","Monk Fighter","Monster Egg",
-    "Morale Boost","Morinphen","Mountain","Mr. Volcano","Mucus Yolk","Multiplication of Ants","Mushroom Man #2",
+    "Morale Boost","Morinphen","Mountain","Mr․ Volcano","Mucus Yolk","Multiplication of Ants","Mushroom Man #2",
     "Musician King","Mustering of the Dark Scorpions","My Body as a Shield","Mysterious Guard","Mysterious Puppeteer",
     "Mystic Clown","Mystic Horseman","Mystic Lamp","Mystic Plasma Zone","Mystic Probe","Mystical Elf","Mystical Moon",
     "Mystical Sheep #2","Mystik Wok","Narrow Pass","Needle Ceiling","Needle Wall","Nekogal #1","Nemuriko",
@@ -157,7 +427,7 @@ YuSpiffOh.cardsByRarity.common = {
     "Souls of the Forgotten","Space Mambo","Sparks","Spatial Collapse","Spear Cretin","Spell Purification",
     "Spell Reproduction","Spellbook Organization","Spherous Lady","Spike Seadra","Spikebot","Spirit Caller",
     "Spirit Elimination","Spirit of Flames","Spirit of the Books","Spirit of the Pot of Greed","Spirit Ryu",
-    "Spirit's Invitation","Spiritual Energy Settle Machine","Spring of Rebirth","St. Joan","Stamping Destruction",
+    "Spirit's Invitation","Spiritual Energy Settle Machine","Spring of Rebirth","St․ Joan","Stamping Destruction",
     "Staunch Defender","Stealth Bird","Steel Ogre Grotto #1","Steel Scorpion","Stim-Pack","Stone Ogre Grotto",
     "Stuffed Animal","Stumbling","Succubus Knight","Summoner of Illusions","Super Robolady","Super Roboyarou",
     "Supply","Swamp Battleguard","Swarm of Locusts","Swarm of Scarabs","Sword Hunter","Sword of Dark Destruction",
@@ -193,7 +463,6 @@ YuSpiffOh.cardsByRarity.common = {
     "Yado Karu","Yami","Yellow Luster Shield","Zero Gravity","Zoa","Zolga","Zombie Tiger","Zombyra the Dark",
 }
 
-
 YuSpiffOh.cardsByRarity.uncommon = {
     "A Feather of the Phoenix","Abyss Soldier","Acid Rain","Adhesion Trap Hole","After the Struggle",
     "Airknight Parshath","Amazoness Archers","Amazoness Chain Master","Amazoness Swords Woman","Amazoness Tiger",
@@ -210,7 +479,7 @@ YuSpiffOh.cardsByRarity.uncommon = {
     "Charcoal Inpachi","Chiron the Mage","Cipher Soldier","Coffin Seller","Combination Attack",
     "Compulsory Evacuation Device","Continuous Destruction Punch","Contract with the Abyss","Covering Fire",
     "Creature Swap","Curse of Anubis","Curse of Darkness","Curse of Dragon","Curse of Royal","Cyber Harpie Lady",
-    "D.D. Borderline","D.D. Crazy Beast","D.D. Scout Plane","D.D. Survivor","D.D. Warrior Lady","Dark Core",
+    "D․D․ Borderline","D․D․ Crazy Beast","D․D․ Scout Plane","D․D․ Survivor","D․D․ Warrior Lady","Dark Core",
     "Dark Designator","Dark Driceratops","Dark Elf","Dark Energy","Dark Hole","Dark Jeroid","Dark King of the Abyss",
     "Dark Magician Girl","Dark Master - Zorc","Dark Mimic LV3","Dark Paladin","Dark Scorpion Combination",
     "Dark Snake Syndrome","Dark Spirit of the Silent","Dark-Piercing Light","Darkbishop Archfiend","Darkfire Dragon",
@@ -240,7 +509,7 @@ YuSpiffOh.cardsByRarity.uncommon = {
     "Kaiser Glider","Kaiser Sea Horse","Karate Man","Karbonala Warrior","King of the Skull Servants",
     "King of the Swamp","King Tiger Wanghu","Kuriboh","Kycoo the Ghost Destroyer",
     "La Jinn the Mystical Genie of the Lamp","Last Turn","Legendary Jujitsu Master","Lekunga","Lesser Fiend",
-    "Level Limit - Area B","Lightforce Sword","Limiter Removal","Little Chimera","Lord of D.","Lost Guardian",
+    "Level Limit - Area B","Lightforce Sword","Limiter Removal","Little Chimera","Lord of D․","Lost Guardian",
     "Luster Dragon #2","Machine Duplication","Machine King","Mad Dog of Darkness","Mad Sword Beast","Mage Power",
     "Magic Cylinder","Magic Drain","Magic Jammer","Magic Reflector","Magical Hats","Magical Scientist",
     "Magical Thorn","Magician of Faith","Magician's Circle","Maha Vailo","Makyura the Destructor",
@@ -269,11 +538,11 @@ YuSpiffOh.cardsByRarity.uncommon = {
     "Skull Invitation","Skull Servant","Slate Warrior","Smoke Grenade of the Thief","Snatch Steal",
     "Sorcerer of Dark Magic","Soul Absorption","Soul Exchange","Soul of the Pure","Soul Resurrection",
     "Spear Dragon","Spell Economics","Spell Shield Type-8","Spellbinding Circle","Spiral Spear Strike",
-    "Spirit Barrier","Spirit Message \"A\"","Spirit Message \"I\"","Spirit Message \"L\"","Spirit Message \"N\"",
+    "Spirit Barrier","Spirit Message A","Spirit Message I","Spirit Message L","Spirit Message N",
     "Spirit of the Breeze","Spirit of the Harp","Star Boy","Statue of the Wicked","Steel Ogre Grotto #2",
     "Stone Statue of the Aztecs","Stop Defense","Stray Lambs","Summoned Skull","Super Rejuvenation",
     "Sword of Dragon's Soul","Swords of Concealing Light","Swords of Revealing Light","Talisman of Spell Sealing",
-    "Talisman of Trap Sealing","Terraforming","The A. Forces","The Agent of Creation - Venus",
+    "Talisman of Trap Sealing","Terraforming","The A․ Forces","The Agent of Creation - Venus",
     "The Agent of Force - Mars","The Agent of Wisdom - Mercury","The Dragon's Bead","The Fiend Megacyber",
     "The Flute of Summoning Dragon","The Legendary Fisherman","The Sanctuary in the Sky","The Shallow Grave",
     "Theban Nightmare","Thestalos the Firestorm Monarch","Thousand Dragon","Thousand Energy",
@@ -290,15 +559,14 @@ YuSpiffOh.cardsByRarity.uncommon = {
     "Zaborg the Thunder Monarch",
 }
 
-
 YuSpiffOh.cardsByRarity.rare = {
-    "Acid Trap Hole","Ameba","Anti-Spell Fragrance","Appropriate","Assault on GHQ","B.E.S. Big Core","Barrel Dragon",
+    "Acid Trap Hole","Ameba","Anti-Spell Fragrance","Appropriate","Assault on GHQ","B․E․S․ Big Core","Barrel Dragon",
     "Beautiful Headhuntress","Behemoth the King of All Animals","Berserk Dragon",
     "Black Luster Soldier - Envoy of the Beginning","Black Skull Dragon","Blast Held by a Tribute","Blue Medicine",
     "Blue-Eyes Shining Dragon","Blue-Eyes Toon Dragon","Blue-Eyes White Dragon","Burning Spear",
     "Butterfly Dagger - Elma","Catapult Turtle","Chain Disappearance","Chaos Command Magician",
     "Charubin the Fire Knight","Confiscation","Cosmo Queen","Cost Down","Criosphinx","Cyber Jar",
-    "D.D. Assailant","Dark Balter the Terrible","Dark Flare Knight","Dark Magician","Dark Magician of Chaos",
+    "D․D․ Assailant","Dark Balter the Terrible","Dark Flare Knight","Dark Magician","Dark Magician of Chaos",
     "Dark Necrofear","Dark Ruler Ha Des","Dark Sage","Darklord Marie","Dedication through Light and Darkness",
     "Des Counterblow","Des Volstgalph","Dimension Fusion","Don Zaloog","Dragoness the Wicked Knight",
     "Ectoplasmer","Elemental HERO Thunder Giant","Elf's Light","Exchange","Exile of the Wicked","Exodia Necross",
@@ -321,13 +589,11 @@ YuSpiffOh.cardsByRarity.rare = {
     "Terrorking Archfiend","The Agent of Judgment - Saturn","The Creator","The First Sarcophagus",
     "The Masked Beast","Thousand-Eyes Restrict","Tragedy","Tsukuyomi","Valkyrion the Magna Warrior",
     "Warrior of Tradition","White Hole","Winged Kuriboh","XYZ-Dragon Cannon","Yata-Garasu","YZ-Tank Dragon",
-
 }
-
 
 YuSpiffOh.cardsByRarity.super_rare = {
     "A-Team: Trap Disposal Unit","Big Burn","Big-Tusked Mammoth","Brain Jacker","Call of the Grave","Chain Burst",
-    "Cross Counter","Cyber-Stein","D.D. Designator","Dark Blade the Dragon Knight","Dark Mirror Force",
+    "Cross Counter","Cyber-Stein","D․D․ Designator","Dark Blade the Dragon Knight","Dark Mirror Force",
     "Different Dimension Dragon","Elemental HERO Flame Wingman","Elemental Mistress Doriado","Emes the Infinity",
     "Enervating Mist","Exodia the Forbidden One","Forced Ceasefire","Freed the Brave Wanderer","Garnecia Elefantis",
     "Giant Red Seasnake","Graceful Charity","Grave Ohja","Great Dezard","Harpie's Feather Duster","Inferno Hammer",
@@ -337,7 +603,6 @@ YuSpiffOh.cardsByRarity.super_rare = {
     "Rafflesia Seduction","Raigeki","Royal Surrender","Sasuke Samurai #4","Serial Spell","Spell Vanishing",
     "Spell-Stopping Statute","Takriminos","Teva","The Forceful Sentry","Twinheaded Beast","Ultimate Insect LV1",
     "Ultimate Insect LV3","Ultimate Insect LV5","Yamata Dragon",
-
 }
 
 YuSpiffOh.cardsByRarity.ultra_rare = {
@@ -346,7 +611,6 @@ YuSpiffOh.cardsByRarity.ultra_rare = {
     "Muko","Penumbral Soldier Lady","Perfect Machine King","Reshef the Dark Being","Shinato, King of a Higher Plane",
     "Sphinx Teleia","The End of Anubis","The Last Warrior from Another Planet","Theinen the Great Sphinx",
     "Tri-Horned Dragon","Ultimate Insect LV7",
-
 }
 
 
