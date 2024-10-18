@@ -66,15 +66,20 @@ end
 function applyItemDetails.applyCardForYuSpiffOh(item)
     if not item:getModData()["gameNight_cardDeck"] then
 
+        print("yugi")
+
         local applyBoosters = item:getModData()["gameNight_specialOnCardApplyBooster"]
         if applyBoosters then
+            print(" - booster")
             applyItemDetails.applyBoostersToYuSpiffOhCards(item)
             item:getModData()["gameNight_specialOnCardApplyBooster"] = nil
+            item:getModData()["gameNight_specialOnCardApplyDeck"] = nil
             return
         end
 
         local applyDeck = item:getModData()["gameNight_specialOnCardApplyDeck"]
         if not applyDeck then
+            print(" - not deck")
             local itemCont = item:getContainer()
             local zombie = itemCont and (itemCont:getType() == "inventorymale" or itemCont:getType() == "inventoryfemale")
             if (ZombRand(10) < 1) or zombie then
@@ -83,13 +88,17 @@ function applyItemDetails.applyCardForYuSpiffOh(item)
                 item:getModData()["gameNight_cardFlipped"] = { true }
                 item:getModData()["gameNight_specialOnCardApplyDeck"] = nil
             else
-                applyDeck = YuSpiffOh.Decks[ZombRand(#YuSpiffOh.Decks)+1]
+                applyDeck = true
             end
         end
 
         if applyDeck then
-            local cards = YuSpiffOh.buildDeck(applyDeck)
+            print(" - deck")
+            local deckID = YuSpiffOh.deckIDs[ZombRand(#YuSpiffOh.deckIDs)+1]
+            local cards = YuSpiffOh.buildDeck(deckID)
+            print(" -- deckID: ", deckID)
             if cards then
+                print(" --- cards?")
                 item:getModData()["gameNight_cardDeck"] = cards
                 item:getModData()["gameNight_cardFlipped"] = {}
                 for i=1, #cards do item:getModData()["gameNight_cardFlipped"][i] = true end
@@ -613,6 +622,10 @@ YuSpiffOh.cardsByRarity.ultra_rare = {
     "Tri-Horned Dragon","Ultimate Insect LV7",
 }
 
+YuSpiffOh.deckIDs = {}
+for deckID,cards in pairs(YuSpiffOh.Decks) do
+    table.insert(YuSpiffOh.deckIDs, deckID)
+end
 
 YuSpiffOh.cards = {}
 for _,cards in pairs(YuSpiffOh.cardsByRarity) do
@@ -622,13 +635,6 @@ for _,cards in pairs(YuSpiffOh.cardsByRarity) do
 end
 deckActionHandler.addDeck("yuSpiffOhCards", YuSpiffOh.cards)
 
-
---- The texture size should be higher than what you'd want in game - if you want hover-over-examine to look nice.
 gamePieceAndBoardHandler.registerSpecial("Base.yuSpiffOhCards", {
-    --- CARD_ITEM_TYPE should match the script's item ID.
-    actions = { examine=true },
-    --shiftAction = {"flipCard"}
-    --- `flipCard` by default is already any card item's `shiftAction`.
-    examineScale = 1,
-    textureSize = {100,140}
+    actions = { examine=true}, examineScale = 0.75, applyCards = "applyCardForYuSpiffOh", textureSize = {100,140}
 })
