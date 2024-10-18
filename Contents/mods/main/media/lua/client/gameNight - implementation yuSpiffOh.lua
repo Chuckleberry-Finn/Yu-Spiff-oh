@@ -5,7 +5,19 @@ local applyItemDetails = require "gameNight - applyItemDetails"
 local deckActionHandler = applyItemDetails.deckActionHandler
 local gamePieceAndBoardHandler = applyItemDetails.gamePieceAndBoardHandler
 
-local common = {
+local YuSpiffOh = {}
+
+YuSpiffOh.rarityScale = {
+    common = 16,
+    uncommon = 10,
+    rare = 4,
+    super_rare = 2,
+    ultra_rare = 1,
+}
+
+YuSpiffOh.cardsByRarity = {}
+
+YuSpiffOh.cardsByRarity.common = {
     "3-Hump Lacooda","4-Starred Ladybug of Doom","7","7 Colored Fish","7 Completed","8-Claws Scorpion",
     "A Cat of Ill Omen","A Deal with Dark Ruler","A Feint Plan","A Hero Emerges","A Legendary Ocean",
     "A Man with Wdjat","A Wingbeat of Giant Dragon","Abare Ushioni","Absolute End","Absorbing Kid from the Sky",
@@ -181,7 +193,8 @@ local common = {
     "Yado Karu","Yami","Yellow Luster Shield","Zero Gravity","Zoa","Zolga","Zombie Tiger","Zombyra the Dark",
 }
 
-local uncommon = {
+
+YuSpiffOh.cardsByRarity.uncommon = {
     "A Feather of the Phoenix","Abyss Soldier","Acid Rain","Adhesion Trap Hole","After the Struggle",
     "Airknight Parshath","Amazoness Archers","Amazoness Chain Master","Amazoness Swords Woman","Amazoness Tiger",
     "Amphibian Beast","Amplifier","Ancient Gear Beast","Ancient Gear Golem","Ante","Apprentice Magician","Aqua Chorus",
@@ -277,8 +290,8 @@ local uncommon = {
     "Zaborg the Thunder Monarch",
 }
 
-local rare = {
 
+YuSpiffOh.cardsByRarity.rare = {
     "Acid Trap Hole","Ameba","Anti-Spell Fragrance","Appropriate","Assault on GHQ","B.E.S. Big Core","Barrel Dragon",
     "Beautiful Headhuntress","Behemoth the King of All Animals","Berserk Dragon",
     "Black Luster Soldier - Envoy of the Beginning","Black Skull Dragon","Blast Held by a Tribute","Blue Medicine",
@@ -312,9 +325,7 @@ local rare = {
 }
 
 
-
-local super_rare = {
-
+YuSpiffOh.cardsByRarity.super_rare = {
     "A-Team: Trap Disposal Unit","Big Burn","Big-Tusked Mammoth","Brain Jacker","Call of the Grave","Chain Burst",
     "Cross Counter","Cyber-Stein","D.D. Designator","Dark Blade the Dragon Knight","Dark Mirror Force",
     "Different Dimension Dragon","Elemental HERO Flame Wingman","Elemental Mistress Doriado","Emes the Infinity",
@@ -329,8 +340,7 @@ local super_rare = {
 
 }
 
-local ultra_rare = {
-
+YuSpiffOh.cardsByRarity.ultra_rare = {
     "Andro Sphinx","Anti Raigeki","Archlord Zerato","Chaos Emperor Dragon - Envoy of the End","Delinquent Duo",
     "Fushioh Richie","Greed","Hino-Kagu-Tsuchi","Horn of Heaven","King Dragun","Master Monk","Mazera DeVille",
     "Muko","Penumbral Soldier Lady","Perfect Machine King","Reshef the Dark Being","Shinato, King of a Higher Plane",
@@ -339,17 +349,18 @@ local ultra_rare = {
 
 }
 
-local cards = {
 
-
-
-}
-deckActionHandler.addDeck("CARD_ITEM_TYPE", cards)
---- To make a TCG or a collectible st of cards you need to do a lot more work, check the TCG add-ons for more insight.
+YuSpiffOh.cards = {}
+for _,cards in pairs(YuSpiffOh.cardsByRarity) do
+    for _,card in pairs(cards) do
+        table.insert(YuSpiffOh.cards, card)
+    end
+end
+deckActionHandler.addDeck("yuSpiffOhCards", YuSpiffOh.cards)
 
 
 --- The texture size should be higher than what you'd want in game - if you want hover-over-examine to look nice.
-gamePieceAndBoardHandler.registerSpecial("Base.CARD_ITEM_TYPE", {
+gamePieceAndBoardHandler.registerSpecial("Base.yuSpiffOhCards", {
     --- CARD_ITEM_TYPE should match the script's item ID.
     actions = { examine=true },
     --shiftAction = {"flipCard"}
