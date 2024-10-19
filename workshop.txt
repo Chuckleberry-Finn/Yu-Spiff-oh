@@ -1,4 +1,5 @@
 version=1
+id=3350997307
 title=Game Night: Yu-Spiff-Oh
 description=[h2]Add-On for [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3058279917]GameNight[/url].[/h2]
 description=[h3]Fast-paced trading card game where players summon creatures, cast spells, and set traps to outwit their opponents.[/h3]
