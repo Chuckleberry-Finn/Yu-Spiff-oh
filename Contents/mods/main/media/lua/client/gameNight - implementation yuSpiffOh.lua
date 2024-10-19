@@ -356,7 +356,7 @@ YuSpiffOh.cardsByRarity.common = {
     "Battle Ox","Battle Steer","Battle-Scarred","Bean Soldier","Beaver Warrior","Begone, Knave!",
     "Beta The Magnet Warrior","Bickuribox","Big Bang Shot","Big Eye","Big Koala","Big Wave Small Wave",
     "Bio-Mage","Birdface","Bite Shoes","Black Dragon's Chick","Black Luster Ritual","Blackland Fire Dragon",
-    "Blade Rabbit","Blast Juggler","Blasting the Ruins","Blazing Inpachi","Blessings of the Nile","Blind Destruction",
+    "Blade Rabbit","Blade Knight","Blast Juggler","Blasting the Ruins","Blazing Inpachi","Blessings of the Nile","Blind Destruction",
     "Blindly Loyal Goblin","Block Attack","Blue-Winged Crown","Boar Soldier","Bokoichi the Freightening Car",
     "Bombardment Beetle","Boneheimer","Book of Secret Arts","Book of Taiyou","Bottom Dweller",
     "Bottomless Shifting Sand","Bowganian","Bubble Crash","Bubonic Vermin","Burglar","Burning Algae",
@@ -516,7 +516,7 @@ YuSpiffOh.cardsByRarity.common = {
 
 YuSpiffOh.cardsByRarity.uncommon = {
     "A Feather of the Phoenix","Abyss Soldier","Acid Rain","Adhesion Trap Hole","After the Struggle",
-    "Airknight Parshath","Amazoness Archers","Amazoness Chain Master","Amazoness Swords Woman","Amazoness Tiger",
+    "Airknight Parshath","Alligator's Sword", "Amazoness Archers","Amazoness Chain Master","Amazoness Swords Woman","Amazoness Tiger",
     "Amphibian Beast","Amplifier","Ancient Gear Beast","Ancient Gear Golem","Ante","Apprentice Magician","Aqua Chorus",
     "Aqua Madoor","Armed Dragon LV5","Armed Dragon LV7","Armed Ninja","Armor Exe","Array of Revealing Light",
     "Arsenal Bug","Asura Priest","Avatar of The Pot","Axe of Despair","Axe Raider","Back to Square One",
@@ -558,7 +558,7 @@ YuSpiffOh.cardsByRarity.uncommon = {
     "Invader of Darkness","Invitation to a Dark Sleep","Jam Breeding Machine","Jar of Greed",
     "Jowgen the Spiritualist","Jowls of Dark Demise","Judge Man","Judgment of Anubis","Kabazauls","Kaibaman",
     "Kaiser Glider","Kaiser Sea Horse","Karate Man","Karbonala Warrior","King of the Skull Servants",
-    "King of the Swamp","King Tiger Wanghu","Kuriboh","Kycoo the Ghost Destroyer",
+    "King of the Swamp","King Tiger Wanghu","Kunai with Chain","Kuriboh","Kycoo the Ghost Destroyer",
     "La Jinn the Mystical Genie of the Lamp","Last Turn","Legendary Jujitsu Master","Lekunga","Lesser Fiend",
     "Level Limit - Area B","Lightforce Sword","Limiter Removal","Little Chimera","Lord of D","Lost Guardian",
     "Luster Dragon #2","Machine Duplication","Machine King","Mad Dog of Darkness","Mad Sword Beast","Mage Power",
@@ -574,13 +574,13 @@ YuSpiffOh.cardsByRarity.uncommon = {
     "Mystic Tomato","Mystical Sheep #1","Mystical Shine Ball","Mystical Space Typhoon","Necklace of Command",
     "Necrovalley","Needle Worm","Neko Mane King","Newdoria","Night Assailant","Nightmare Wheel","Nimble Momonga",
     "Ninja Grandmaster Sasuke","Ninjitsu Art of Transformation","Nobleman of Crossout","Nobleman of Extermination",
-    "Nuvia the Wicked","Opticlops","Order to Charge","Paladin of White Dragon","Parasite Paracide","Parrot Dragon",
+    "Nuvia the Wicked","Opticlops","Order to Charge","Paladin of White Dragon","Panther Warrior","Parasite Paracide","Parrot Dragon",
     "Penguin Soldier","Pharaoh's Treasure","Polymerization","Pot of Greed","Premature Burial","Princess of Tsurugi",
     "Protector of the Sanctuary","Pyramid Turtle","Rare Metalmorph","Re-Fusion","Ready for Intercepting",
     "Reaper of the Cards","Reasoning","Reckless Greed","Red-Eyes Black Metal Dragon","Red-Eyes Darkness Dragon",
     "Reflect Bounder","Reinforcement of the Army","Reload","Return from the Different Dimension",
     "Return of the Doomed","Revival Jam","Revival of Dokurorider","Riryoku Field","Ritual Weapon",
-    "Rivalry of Warlords","Robbin' Goblin","Rope of Life","Royal Command","Royal Magical Library",
+    "Rivalry of Warlords","Robbin' Goblin","Rocket Warrior","Rope of Life","Royal Command","Royal Magical Library",
     "Royal Oppression","Royal Tribute","Rude Kaiser","Ryu Senshi","Ryu-Kishin","Sage's Stone","Salvage",
     "Sangan","Sanwitch","Sasuke Samurai","Scapegoat","Sealmaster Meisei","Second Coin Toss","Seiyaryu",
     "Senju of the Thousand Hands","Seven Tools of the Bandit","Shadow Ghoul","Shadow Spell","Shadow Tamer",
@@ -678,5 +678,5 @@ end
 deckActionHandler.addDeck("yuSpiffOhCards", YuSpiffOh.cards)
 
 gamePieceAndBoardHandler.registerSpecial("Base.yuSpiffOhCards", {
-    actions = { examine=true}, examineScale = 0.75, applyCards = "applyCardForYuSpiffOh", textureSize = {100,140}
+    actions = { examine=true}, examineScale = 1, applyCards = "applyCardForYuSpiffOh", textureSize = {100,140}
 })
