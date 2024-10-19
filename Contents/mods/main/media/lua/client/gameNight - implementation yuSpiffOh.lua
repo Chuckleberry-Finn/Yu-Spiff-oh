@@ -130,6 +130,61 @@ end
 
 
 YuSpiffOh.Decks = {
+
+    ["Yugi's Grandpa Deck"] = {
+        ["Exodia the Forbidden One"] = 1, ["Left Arm of the Forbidden One"] = 1, ["Right Arm of the Forbidden One"] = 1,
+        ["Left Leg of the Forbidden One"] = 1, ["Right Leg of the Forbidden One"] = 1, ["Blue-Eyes White Dragon"] = 1,
+        ["Summoned Skull"] = 1, ["Mystical Elf"] = 1, ["Celtic Guardian"] = 1, ["Giant Soldier of Stone"] = 1,
+        ["Man-Eater Bug"] = 1, ["Sangan"] = 1, ["Kuriboh"] = 1, ["Dark Magician"] = 1, ["Pot of Greed"] = 1,
+        ["Graceful Charity"] = 1, ["Monster Reborn"] = 1, ["Mystical Space Typhoon"] = 1,
+        ["Swords of Revealing Light"] = 1, ["Mirror Force"] = 1, ["Call of the Haunted"] = 1, ["Polymerization"] = 1,
+        ["Fissure"] = 1, ["Dark Hole"] = 1, ["Waboku"] = 1, ["Heavy Storm"] = 1, ["Trap Hole"] = 1, ["Magical Hats"] = 1,
+        ["Reinforcements"] = 1,
+    },
+
+    ["Joey Wheeler Deck"] = {
+        ["Red-Eyes Black Dragon"] = 2, ["Gearfried the Iron Knight"] = 2, ["Flame Swordsman"] = 1, ["Time Wizard"] = 1,
+        ["Baby Dragon"] = 1, ["Alligator's Sword"] = 1, ["Panther Warrior"] = 1, ["Goblin Attack Force"] = 2,
+        ["Jinzo"] = 1, ["Axe Raider"] = 1, ["Rocket Warrior"] = 1, ["Giant Trunade"] = 1,
+        ["Mystical Space Typhoon"] = 1, ["Pot of Greed"] = 1, ["Graceful Charity"] = 1, ["Polymerization"] = 1,
+        ["Premature Burial"] = 1, ["Reinforcement of the Army"] = 1, ["Monster Reborn"] = 1, ["Skull Dice"] = 1,
+        ["Graceful Dice"] = 1, ["Sakuretsu Armor"] = 2, ["Trap Jammer"] = 1, ["Call of the Haunted"] = 1,
+        ["Kunai with Chain"] = 1, ["Scapegoat"] = 1, ["Ring of Destruction"] = 1, ["Mirror Force"] = 1,
+        ["Heavy Storm"] = 1,
+    },
+
+    ["Pegasus Deck"] = {
+        ["Relinquished"] = 1, ["Toon World"] = 1, ["Blue-Eyes Toon Dragon"] = 1, ["Toon Summoned Skull"] = 1,
+        ["Toon Gemini Elf"] = 2, ["Toon Mermaid"] = 1, ["Toon Goblin Attack Force"] = 1, ["Toon Masked Sorcerer"] = 1,
+        ["Man-Eater Bug"] = 1, ["Jinzo"] = 1, ["Thousand-Eyes Restrict"] = 1, ["Thousand-Eyes Idol"] = 1,
+        ["Sangan"] = 1, ["Mystical Space Typhoon"] = 1, ["Toon Table of Contents"] = 2, ["Pot of Greed"] = 1,
+        ["Graceful Charity"] = 1, ["Polymerization"] = 1, ["Snatch Steal"] = 1, ["Monster Reborn"] = 1,
+        ["Scapegoat"] = 1, ["Call of the Haunted"] = 1, ["Mirror Force"] = 1, ["Ring of Destruction"] = 1,
+        ["Sakuretsu Armor"] = 2, ["Torrential Tribute"] = 1, ["Negate Attack"] = 1, ["Toon Defense"] = 1,
+        ["Heavy Storm"] = 1,
+    },
+
+    ["Yugi Starter Deck"] = {
+        ["Dark Magician"] = 1, ["Summoned Skull"] = 1, ["Celtic Guardian"] = 1, ["Feral Imp"] = 1,
+        ["Giant Soldier of Stone"] = 1, ["Mystical Elf"] = 1, ["Beaver Warrior"] = 1, ["Man-Eater Bug"] = 1,
+        ["Wall of Illusion"] = 1, ["Magician of Faith"] = 1, ["Sangan"] = 1, ["Trap Hole"] = 1, ["Fissure"] = 1,
+        ["Change of Heart"] = 1, ["Monster Reborn"] = 1, ["Mystical Space Typhoon"] = 1, ["Book of Moon"] = 1,
+        ["Graceful Charity"] = 1, ["Pot of Greed"] = 1, ["Mirror Force"] = 1, ["Call of the Haunted"] = 1,
+        ["Swords of Revealing Light"] = 1, ["Soul Release"] = 1, ["Horn of the Unicorn"] = 1,
+        ["Polymerization"] = 1, ["Dark Hole"] = 1, ["Waboku"] = 1, ["Reinforcements"] = 1, ["Magical Hats"] = 1,
+    },
+
+    ["Kaiba Starter Deck"] = {
+        ["Blue-Eyes White Dragon"] = 2, ["Battle Ox"] = 1, ["Ryu-Kishin Powered"] = 1, ["Luster Dragon"] = 1,
+        ["Lord of D"] = 1, ["Mystic Horseman"] = 1, ["Hyozanryu"] = 1, ["Judge Man"] = 1,
+        ["La Jinn the Mystical Genie of the Lamp"] = 1, ["Giant Soldier of Stone"] = 1, ["Wall of Illusion"] = 1,
+        ["Spear Dragon"] = 1, ["Kaiser Sea Horse"] = 1, ["Mystical Space Typhoon"] = 1, ["Polymerization"] = 1,
+        ["Pot of Greed"] = 1, ["Graceful Charity"] = 1, ["Monster Reborn"] = 1, ["Snatch Steal"] = 1,
+        ["Ring of Destruction"] = 1, ["Call of the Haunted"] = 1, ["Trap Jammer"] = 1, ["Enemy Controller"] = 1,
+        ["Shrink"] = 1, ["Premature Burial"] = 1, ["Fissure"] = 1, ["Trap Hole"] = 1, ["Sakuretsu Armor"] = 1,
+        ["Negate Attack"] = 1, ["The Flute of Summoning Dragon"] = 1,
+    },
+
     ["Goat Control"] = {
         ["Jinzo"] = 1, ["Airknight Parshath"] = 1, ["Tsukuyomi"] = 1,
         ["Black Luster Soldier - Envoy of the Beginning"] = 1, ["Sinister Serpent"] = 1, ["Sangan"] = 1,
@@ -508,7 +563,7 @@ YuSpiffOh.cardsByRarity.uncommon = {
     "Kaiser Glider","Kaiser Sea Horse","Karate Man","Karbonala Warrior","King of the Skull Servants",
     "King of the Swamp","King Tiger Wanghu","Kuriboh","Kycoo the Ghost Destroyer",
     "La Jinn the Mystical Genie of the Lamp","Last Turn","Legendary Jujitsu Master","Lekunga","Lesser Fiend",
-    "Level Limit - Area B","Lightforce Sword","Limiter Removal","Little Chimera","Lord of D ","Lost Guardian",
+    "Level Limit - Area B","Lightforce Sword","Limiter Removal","Little Chimera","Lord of D","Lost Guardian",
     "Luster Dragon #2","Machine Duplication","Machine King","Mad Dog of Darkness","Mad Sword Beast","Mage Power",
     "Magic Cylinder","Magic Drain","Magic Jammer","Magic Reflector","Magical Hats","Magical Scientist",
     "Magical Thorn","Magician of Faith","Magician's Circle","Maha Vailo","Makyura the Destructor",
