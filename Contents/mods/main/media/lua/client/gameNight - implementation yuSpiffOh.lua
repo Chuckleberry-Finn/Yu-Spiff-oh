@@ -118,6 +118,13 @@ function YuSpiffOh.buildDeck(deckID)
         end
     end
 
+    if #cards < 40 then
+        for i=#cards, 39 do
+            local card = applyItemDetails.yuSpiffOh.spawnRandomCard()
+            table.insert(cards, card)
+        end
+    end
+
     return cards
 end
 
@@ -169,8 +176,8 @@ YuSpiffOh.Decks = {
     },
 
     ["Machine Aggro"] = {
-        ["Jinzo"] = 1, ["Reflect Bounder"] = 2, ["X Head Cannon"] = 2,
-        ["Y Dragon Head"] = 2, ["Z Metal Tank"] = 2, ["Cyber Dragon"] = 2,
+        ["Jinzo"] = 1, ["Reflect Bounder"] = 2, ["X-Head Cannon"] = 2,
+        ["XYZ-Dragon Cannon"] = 1, ["Y-Dragon Head"] = 2, ["Z-Metal Tank"] = 2,
         ["Mystical Space Typhoon"] = 1, ["Limiter Removal"] = 1,
         ["Heavy Storm"] = 1, ["Pot of Greed"] = 1, ["Graceful Charity"] = 1,
         ["Snatch Steal"] = 1, ["Premature Burial"] = 1, ["Call of the Haunted"] = 1,
@@ -223,7 +230,7 @@ YuSpiffOh.Decks = {
     },
 
     ["Anti-Meta Beatdown"] = {
-        ["Banisher of the Radiance"] = 2, ["D D Warrior Lady"] = 2, ["Exiled Force"] = 1,
+        ["Banisher of the Light"] = 2, ["D D Warrior Lady"] = 2, ["Exiled Force"] = 1,
         ["Blade Knight"] = 2, ["Kycoo the Ghost Destroyer"] = 2, ["Breaker the Magical Warrior"] = 1,
         ["Jinzo"] = 1, ["Mystic Tomato"] = 2, ["Mystical Space Typhoon"] = 1,
         ["Heavy Storm"] = 1, ["Nobleman of Crossout"] = 2, ["Snatch Steal"] = 1,
@@ -461,7 +468,7 @@ YuSpiffOh.cardsByRarity.uncommon = {
     "Amphibian Beast","Amplifier","Ancient Gear Beast","Ancient Gear Golem","Ante","Apprentice Magician","Aqua Chorus",
     "Aqua Madoor","Armed Dragon LV5","Armed Dragon LV7","Armed Ninja","Armor Exe","Array of Revealing Light",
     "Arsenal Bug","Asura Priest","Avatar of The Pot","Axe of Despair","Axe Raider","Back to Square One",
-    "Backup Soldier","Banisher of the Radiance","Barrel Behind the Door","Bazoo the Soul-Eater","Beast of Talwar",
+    "Backup Soldier","Banisher of the Light","Barrel Behind the Door","Bazoo the Soul-Eater","Beast of Talwar",
     "Beast Soul Swap","Beastking of the Swamps","Beckoning Light","Berserk Gorilla","Big Shield Gardna",
     "Black Illusion Ritual","Black Luster Soldier","Black Pendant","Black Tyranno","Bladefly","Blast Magician",
     "Blast with Chain","Blowback Dragon","Book of Life","Book of Moon","Bottomless Trap Hole","Brain Control",
