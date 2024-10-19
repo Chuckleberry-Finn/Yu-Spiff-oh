@@ -176,13 +176,12 @@ YuSpiffOh.Decks = {
 
     ["Kaiba Starter Deck"] = {
         ["Blue-Eyes White Dragon"] = 2, ["Battle Ox"] = 1, ["Ryu-Kishin Powered"] = 1, ["Luster Dragon"] = 1,
-        ["Lord of D"] = 1, ["Mystic Horseman"] = 1, ["Hyozanryu"] = 1, ["Judge Man"] = 1,
+        ["Lord of D"] = 1, ["Mystic Horseman"] = 1, ["Hyozanryu"] = 1, ["Judge Man"] = 1, ["Sakuretsu Armor"] = 1,
         ["La Jinn the Mystical Genie of the Lamp"] = 1, ["Giant Soldier of Stone"] = 1, ["Wall of Illusion"] = 1,
         ["Spear Dragon"] = 1, ["Kaiser Sea Horse"] = 1, ["Mystical Space Typhoon"] = 1, ["Polymerization"] = 1,
         ["Pot of Greed"] = 1, ["Graceful Charity"] = 1, ["Monster Reborn"] = 1, ["Snatch Steal"] = 1,
         ["Ring of Destruction"] = 1, ["Call of the Haunted"] = 1, ["Trap Jammer"] = 1, ["Enemy Controller"] = 1,
-        ["Shrink"] = 1, ["Premature Burial"] = 1, ["Fissure"] = 1, ["Trap Hole"] = 1, ["Sakuretsu Armor"] = 1,
-        ["Negate Attack"] = 1, ["The Flute of Summoning Dragon"] = 1,
+        ["Premature Burial"] = 1, ["Fissure"] = 1, ["Trap Hole"] = 1, ["The Flute of Summoning Dragon"] = 1,
     },
 
     ["Goat Control"] = {
@@ -262,13 +261,11 @@ YuSpiffOh.Decks = {
     },
 
     ["Monarch Control"] = {
-        ["Mobius the Frost Monarch"] = 2, ["Zaborg the Thunder Monarch"] = 2,
-        ["Treeborn Frog"] = 1, ["Spirit Reaper"] = 1, ["Breaker the Magical Warrior"] = 1,
-        ["Magician of Faith"] = 2, ["D D Warrior Lady"] = 1, ["Sangan"] = 1,
-        ["Mystical Space Typhoon"] = 1, ["Heavy Storm"] = 1, ["Snatch Steal"] = 1,
-        ["Premature Burial"] = 1, ["Pot of Greed"] = 1, ["Graceful Charity"] = 1,
-        ["Nobleman of Crossout"] = 2, ["Soul Exchange"] = 2, ["Brain Control"] = 1,
-        ["Mirror Force"] = 1, ["Torrential Tribute"] = 1, ["Sakuretsu Armor"] = 2,
+        ["Mobius the Frost Monarch"] = 2, ["Zaborg the Thunder Monarch"] = 2, ["Spirit Reaper"] = 1,
+        ["Breaker the Magical Warrior"] = 1, ["Magician of Faith"] = 2, ["D D Warrior Lady"] = 1, ["Sangan"] = 1,
+        ["Mystical Space Typhoon"] = 1, ["Heavy Storm"] = 1, ["Snatch Steal"] = 1, ["Premature Burial"] = 1,
+        ["Pot of Greed"] = 1, ["Graceful Charity"] = 1, ["Nobleman of Crossout"] = 2, ["Soul Exchange"] = 2,
+        ["Brain Control"] = 1, ["Mirror Force"] = 1, ["Torrential Tribute"] = 1, ["Sakuretsu Armor"] = 2,
         ["Call of the Haunted"] = 1, ["Ring of Destruction"] = 1,
     },
 
