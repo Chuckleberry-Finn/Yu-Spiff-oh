@@ -145,12 +145,12 @@ YuSpiffOh.Decks = {
     ["Joey Wheeler Deck"] = {
         ["Red-Eyes Black Dragon"] = 2, ["Gearfried the Iron Knight"] = 2, ["Flame Swordsman"] = 1, ["Time Wizard"] = 1,
         ["Baby Dragon"] = 1, ["Alligator's Sword"] = 1, ["Panther Warrior"] = 1, ["Goblin Attack Force"] = 2,
-        ["Jinzo"] = 1, ["Axe Raider"] = 1, ["Rocket Warrior"] = 1, ["Giant Trunade"] = 1,
+        ["Jinzo"] = 1, ["Axe Raider"] = 1, ["Rocket Warrior"] = 1, ["Giant Trunade"] = 1, ["Flame Manipulator"] = 1,
         ["Mystical Space Typhoon"] = 1, ["Pot of Greed"] = 1, ["Graceful Charity"] = 1, ["Polymerization"] = 1,
         ["Premature Burial"] = 1, ["Reinforcement of the Army"] = 1, ["Monster Reborn"] = 1, ["Skull Dice"] = 1,
         ["Graceful Dice"] = 1, ["Sakuretsu Armor"] = 2, ["Trap Jammer"] = 1, ["Call of the Haunted"] = 1,
         ["Kunai with Chain"] = 1, ["Scapegoat"] = 1, ["Ring of Destruction"] = 1, ["Mirror Force"] = 1,
-        ["Heavy Storm"] = 1,
+        ["Heavy Storm"] = 1, ["Masaki the Legendary Swordsman"] = 1,
     },
 
     ["Pegasus Deck"] = {
