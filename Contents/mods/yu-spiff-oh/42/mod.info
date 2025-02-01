@@ -1,0 +1,8 @@
+name=Game Night - Yu-Spiff-Oh
+id=gamenight_YuSpiffOh
+description=Unofficial Fan Content
+poster=poster.png
+require=\gamenight,\ChuckleberryFinnAlertSystem,\errorMagnifier,
+author=Chuckleberry Finn
+icon=icon.png
+versionMin=42.0

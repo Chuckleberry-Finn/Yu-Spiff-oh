@@ -1,0 +1,12 @@
+module Base
+{
+    craftRecipe UnsealYuSpiffOhCards
+    {
+        Time = 25,
+        category = Miscellaneous,
+        tags = CanBeDoneInDark;InHandCraft;CanBeDoneFromFloor;RightClickOnly,
+        inputs { item 1 [Base.yuSpiffOhBoosterPack] flags[Prop2], }
+        OnCreate = Recipe.GameNight.OpenSealedYuSpiffOhCards,
+        outputs { item 1 Base.yuSpiffOhCards, }
+    }
+}
