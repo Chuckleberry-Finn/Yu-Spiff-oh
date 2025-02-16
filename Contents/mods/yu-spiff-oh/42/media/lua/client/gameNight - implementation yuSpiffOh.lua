@@ -643,7 +643,7 @@ YuSpiffOh.cardsByRarity.rare = {
 }
 
 YuSpiffOh.cardsByRarity.super_rare = {
-    "A-Team: Trap Disposal Unit","Big Burn","Big-Tusked Mammoth","Brain Jacker","Call of the Grave","Chain Burst",
+    "A-Team Trap Disposal Unit","Big Burn","Big-Tusked Mammoth","Brain Jacker","Call of the Grave","Chain Burst",
     "Cross Counter","Cyber-Stein","D D Designator","Dark Blade the Dragon Knight","Dark Mirror Force",
     "Different Dimension Dragon","Elemental HERO Flame Wingman","Elemental Mistress Doriado","Emes the Infinity",
     "Enervating Mist","Exodia the Forbidden One","Forced Ceasefire","Freed the Brave Wanderer","Garnecia Elefantis",
